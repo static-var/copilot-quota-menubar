@@ -2,6 +2,9 @@
 
 Small macOS menubar app that shows your GitHub Copilot premium request quota.
 
+## Vibe coded disclaimer
+This app is **“Vibe coded”** and not tested on a large audience yet — expect rough edges, unexpected bugs, or errors.
+
 ## Auth sources
 The app tries, in order:
 1. **VS Code** (`Code - Insiders`, `Code`, `VSCodium`) – reads the GitHub auth session from VS Code’s local storage + Keychain.
@@ -54,4 +57,3 @@ The GitHub Actions workflow builds the `.app` and publishes `dist/*.zip` to the 
 ## Gatekeeper / notarization
 For frictionless public distribution, macOS expects apps to be **code signed** and **notarized**.
 Unsigned apps will typically require the user to explicitly allow opening them in macOS **Privacy & Security**.
-
