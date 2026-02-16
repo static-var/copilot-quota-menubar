@@ -61,6 +61,16 @@ cat >"$APP_DIR/Contents/Info.plist" <<EOF
 </plist>
 EOF
 
+SIGNING_IDENTITY="${SIGNING_IDENTITY:-}"
+if [[ -n "$SIGNING_IDENTITY" ]]; then
+  # Developer ID signing (recommended for distribution + notarization).
+  codesign --force --deep --options runtime --timestamp --sign "$SIGNING_IDENTITY" "$APP_DIR"
+else
+  # SwiftPM binaries are typically ad-hoc signed by the linker; re-sign the *bundle* so Gatekeeper
+  # doesn't see a "signed app bundle" missing CodeResources (which shows up as "app is damaged").
+  codesign --force --deep --sign - "$APP_DIR"
+fi
+
 ZIP_BASENAME="${ZIP_BASENAME:-${APP_NAME// /-}-${VERSION}-macOS-$(uname -m)}"
 ZIP_PATH="$DIST_DIR/$ZIP_BASENAME.zip"
 rm -f "$ZIP_PATH"
